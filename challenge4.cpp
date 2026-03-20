@@ -5,6 +5,8 @@
 #include <iostream>
 #include <utility>
 #include <fstream>
+#include <unistd.h>
+#include <limits.h>
 
 int to_int(std::byte b){
     return std::to_integer<int>(b);
@@ -86,17 +88,13 @@ void solve(std::string s){
 }
 
 int main(){
-    std::ifstream MyReadFile("/home/dimsas/cryptopals/challenge4inp.txt");
-    
-    // if (!MyReadFile.is_open()) {
-    //     std::cerr << "Error: Could not open challenge4inp.txt" << std::endl;
-    //     return 1;
-    // }
-    
+    char buffer[PATH_MAX];
+    getcwd(buffer, sizeof(buffer));
+    std::string bufferStr(buffer);
+    std::ifstream MyReadFile(bufferStr+"/challenge4inp.txt");
     std::string myText;
 
     while (std::getline (MyReadFile, myText)) {
-        // std::cout << myText << std::endl;
         solve(myText);
     }
     MyReadFile.close();
